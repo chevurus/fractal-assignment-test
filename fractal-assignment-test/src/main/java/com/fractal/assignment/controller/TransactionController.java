@@ -32,7 +32,7 @@ public class TransactionController {
 
 	}
 
-	@GetMapping(path = "/companies/{companyId}/{categoriesList}/transactions")
+	@GetMapping(path = "/companies/{companyId}/categories/{categoriesList}/transactions")
 	@ResponseBody
 	public List<Results> getCategorisedTransactions(@PathVariable String companyId, @PathVariable List<String> categoriesList) {
 		return transactionService.getTransactionsForCategoryList(companyId, categoriesList);
