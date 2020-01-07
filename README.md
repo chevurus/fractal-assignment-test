@@ -19,9 +19,9 @@ Fetch Transactions for a particular category:
 REST Route GET /companies/{companyId}/transactions/{category}
 GET http://localhost:8080/companies/2/transactions/Rent & Office 
 
-Fetch Transactions for a list of categories:
-REST Route GET /companies/{companyId}/{categoriesList}/transactions
-Get http://localhost:8080/companies/2/{Operating Expense,R&D Costs}/transactions
+Fetch Transactions for a list of categories: Lists all transactions for categories mentioned as comma separated values
+REST Route GET /companies/{companyId}/categories/{categoriesList}/transactions
+Get http://localhost:8080/companies/2/categories/Operating Expense,R&D Costs/transactions
 
 Update Transaction category:
 PUT /companies/{companyId}/transactions/{transactionId}/{categoryId}
