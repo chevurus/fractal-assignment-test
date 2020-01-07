@@ -20,42 +20,31 @@ public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
 
-	@GetMapping(path = "/transactions")
-	public List<Results> getTrasactions() {
-		return transactionService.getTransactions();
+	@GetMapping(path = "/companies/{companyId}/transactions")
+	public List<Results> getTrasactions(@PathVariable String companyId) {
+		return transactionService.getTransactions(companyId);
 
 	}
 
-	@GetMapping(path = "/transactions/{category}")
-	public List<Results> getTransactionsForCategory(@PathVariable String category) {
-		return transactionService.getTransactionsForCategory(category);
+	@GetMapping(path = "/companies/{companyId}/transactions/{category}")
+	public List<Results> getTransactionsForCategory(@PathVariable String companyId, @PathVariable String category) {
+		return transactionService.getTransactionsForCategory(companyId, category);
 
 	}
 
-	@GetMapping(path = "/{categoriesList}/transactions")
+	@GetMapping(path = "/companies/{companyId}/{categoriesList}/transactions")
 	@ResponseBody
-	public List<Results> getCategorisedTransactions(@PathVariable List<String> categoriesList) {
-		return transactionService.getTransactionsForCategoryList(categoriesList);
+	public List<Results> getCategorisedTransactions(@PathVariable String companyId, @PathVariable List<String> categoriesList) {
+		return transactionService.getTransactionsForCategoryList(companyId, categoriesList);
 	}
-
 	
-//	@PutMapping(path = "/transactions/{companyId}/{categoryId}/{transactionId}}")
-//	public List<Results> updateTransactionCategory(@PathVariable String companyId,
-//			@PathVariable String categoryId, @PathVariable String transactionId) {
-//		return transactionService.updateTransactionCategory(companyId, categoryId, transactionId);
-//
-//	}
-	
-	@PutMapping(path = "/transactions/{transactionId}/{categoryId}/{companyId}")
+	@PutMapping(path = "/companies/{companyId}/transactions/{transactionId}/{categoryId}")
 	public List<Results> updateTransactionCategory(@PathVariable String transactionId, @PathVariable String categoryId,@PathVariable String companyId ) {
 		return transactionService.updateTransactionCategory(companyId, categoryId, transactionId);
 
 	}
 	
-	@PutMapping(path = "/transactions/{id}/{categoryName}")
-	public List<Results> updateTransactionCategory(@PathVariable String id, @PathVariable String category) {
-		return transactionService.getTransactionsForCategory(category);
-	}
+
 
 
 }

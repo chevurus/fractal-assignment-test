@@ -1,17 +1,13 @@
 package com.fractal.assignment.service;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +18,8 @@ import com.fractal.assignment.model.ResultsList;
 
 @Service
 public class TransactionService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionService.class);
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -40,28 +38,26 @@ public class TransactionService {
 		this.transactionApiUrl = transactionApiUrl;
 	}
 
-	public List<Results> getTransactions() {
+	public List<Results> getTransactions(String companyId) {
 
-		List<Results> transactions = getCompanyTransactions();
+		List<Results> transactions = getCompanyTransactions(companyId);
 		return transactions;
 
 	}
 
-	public List<Results> getTransactionsForCategoryList(List<String> categories) {
+	public List<Results> getTransactionsForCategoryList(String companyId, List<String> categories) {
 
-		List<Results> transactions = getCompanyTransactions();
-
-		transactions.forEach(System.out::println);
-
-		transactions.removeIf(transaction -> !categories.contains(transaction.getCategory()));
+		List<Results> transactions = getCompanyTransactions(companyId);
+		
+		transactions.removeIf(t -> (!categories.contains(t.getCategory())));
 
 		return transactions;
 
 	}
 
-	public List<Results> getTransactionsForCategory(String category) {
+	public List<Results> getTransactionsForCategory(String companyId, String category) {
 
-		List<Results> transactions = getCompanyTransactions();
+		List<Results> transactions = getCompanyTransactions(companyId);
 
 		transactions.removeIf(transaction -> !category.equals(transaction.getCategory()));
 
@@ -69,9 +65,9 @@ public class TransactionService {
 
 	}
 
-	private List<Results> getCompanyTransactions() {
+	private List<Results> getCompanyTransactions(String companyId) {
 
-		ResultsList response = restTemplate.getForObject(transactionApiUrl, ResultsList.class);
+		ResultsList response = restTemplate.getForObject(transactionApiUrl+"?companyId="+companyId, ResultsList.class);
 
 		List<Results> trasactions = response.getResults();
 
