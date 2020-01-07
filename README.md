@@ -12,18 +12,18 @@ java -jar fractal-assignment-test-0.0.1-SNAPSHOT.jar
 3. Rest URLs:
 
 Fetch all Transactions:
-REST Route GET /transactions
-GET http://localhost:8080/transactions
+REST Route GET /companies/{companyId}/transactions
+GET http://localhost:8080/companies/2/transactions
 
 Fetch Transactions for a particular category:
-REST Route GET /transactions/{category}
-GET http://localhost:8080/transactions/Rent & Office 
+REST Route GET /companies/{companyId}/transactions/{category}
+GET http://localhost:8080/companies/2/transactions/Rent & Office 
 
 Fetch Transactions for a list of categories:
-REST Route GET /transactions/{transactionId}/{categoryId}/{companyId}
-Get http://localhost:8080/{Operating Expense,R&D Costs}/transactions
+REST Route GET /companies/{companyId}/{categoriesList}/transactions
+Get http://localhost:8080/companies/2/{Operating Expense,R&D Costs}/transactions
 
 Update Transaction category:
-PUT /transactions/{transactionId}/{categoryId}/{companyId}
-PUT http://localhost:8080/transactions/fakeTrx062/a6hg1/2
+PUT /companies/{companyId}/transactions/{transactionId}/{categoryId}
+PUT http://localhost:8080/companies/2/transactions/fakeTrx062/a6hg1
 
