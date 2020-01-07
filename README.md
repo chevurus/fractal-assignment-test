@@ -26,3 +26,4 @@ Get http://localhost:8080/{Operating Expense,R&D Costs}/transactions
 Update Transaction category:
 PUT /transactions/{transactionId}/{categoryId}/{companyId}
 PUT http://localhost:8080/transactions/fakeTrx062/a6hg1/2
+
