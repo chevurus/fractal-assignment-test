@@ -15,7 +15,7 @@ import com.fractal.assignment.service.TransactionService;
 
 
 @RestController
-public class CategoryController {
+public class TransactionController {
 
 	@Autowired
 	TransactionService transactionService;
