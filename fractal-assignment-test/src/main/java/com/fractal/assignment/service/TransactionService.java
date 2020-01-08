@@ -8,17 +8,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fractal.assignment.model.Results;
 import com.fractal.assignment.model.ResultsList;
 
-
-
 @Service
 public class TransactionService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionService.class);
 
 	@Autowired
@@ -48,7 +53,7 @@ public class TransactionService {
 	public List<Results> getTransactionsForCategoryList(String companyId, List<String> categories) {
 
 		List<Results> transactions = getCompanyTransactions(companyId);
-		
+
 		transactions.removeIf(t -> (!categories.contains(t.getCategory())));
 
 		return transactions;
@@ -67,27 +72,48 @@ public class TransactionService {
 
 	private List<Results> getCompanyTransactions(String companyId) {
 
-		ResultsList response = restTemplate.getForObject(transactionApiUrl+"?companyId="+companyId, ResultsList.class);
+		ResultsList response = restTemplate.getForObject(transactionApiUrl + "?companyId=" + companyId,
+				ResultsList.class);
 
 		List<Results> trasactions = response.getResults();
 
 		return trasactions;
 	}
 
-	public List<Results> updateTransactionCategory(String companyId, String categoryId, String transactionId) {
+	public void updateTransactionCategory(String companyId, String categoryId, String transactionId) throws JsonProcessingException {
 		
-	       Map<String, String> vars = new HashMap<String, String>();
-	        vars.put("companyId", companyId);
-	        vars.put("categoryId", categoryId);
-	        vars.put("transactionId", transactionId);
-	        
-		//User returns = rt.postForObject(uri, u, User.class, vars);
-	        Results transaction = new Results();
 		
-		restTemplate.put(categoryApiUrl, transaction, vars);
 		
+		HttpHeaders header = new HttpHeaders();
 
-		return null;
+		//You can use more methods of HttpHeaders to set additional information
+		header.setContentType(MediaType.APPLICATION_JSON);
+
+		Map<String, String> bodyParamMap = new HashMap<String, String>();
+
+		//Set your request body params
+		bodyParamMap.put("transactionId", transactionId);
+		bodyParamMap.put("categoryId", categoryId);
+		//bodyParamMap.put("companyId", companyId);
+	
+
+		String reqBodyData = new ObjectMapper().writeValueAsString(bodyParamMap);
+		
+		//"0={"transactionId":"fakeTrx04","categoryId":"dqwe4"}"
+		String body = "\"0="+reqBodyData+"\"";
+		
+		LOGGER.info("reqBodyDate = " + reqBodyData);
+		LOGGER.info("body = " + body);
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(body, header);
+		
+		LOGGER.info("requestEntity Body= " + requestEntity.getBody());
+		
+		restTemplate.exchange(categoryApiUrl, HttpMethod.PUT, requestEntity, String.class, bodyParamMap);
+		
+		
+		//restTemplate.put(categoryApiUrl, requestEnty, reqBodyData);
+		
 	}
 
 }

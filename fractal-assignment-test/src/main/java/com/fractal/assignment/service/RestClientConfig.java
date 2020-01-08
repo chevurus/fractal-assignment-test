@@ -36,6 +36,7 @@ public class RestClientConfig {
 
 	}
 
+	//Autowired as bean to enable to use the application.properties in the class
 	@Bean
 	public RestTemplateHeaderModifierInterceptor restTemplateHeaderModifierInterceptor() {
 		return new RestTemplateHeaderModifierInterceptor();
