@@ -1,15 +1,20 @@
 # fractal-assignment-test - Spring Boot Web Project
 
-1. Build the project:
-mvn clean install
-Generates a .jar file under the target folder.
-e.g git/fractal-assignment-test/fractal-assignment-test/target/fractal-assignment-test-0.0.1-SNAPSHOT.jar
+1. Running the project: 2 - ways
 
-2. Run the project: Starts the spring boot project.
-Run the following command on CommandLine at the location of the jar. The command starts the spring boot project.
-java -jar fractal-assignment-test-0.0.1-SNAPSHOT.jar
+  1.1 Jar file located under git project at fractal-assignment-test/fractal-assignment-test/src/main/resources
+  Run the following command on CommandLine at the location of the jar. The command starts the spring boot project.
+  java -jar fractal-assignment-test-0.0.1-SNAPSHOT.jar
 
-3. Rest URLs:
+  1.2. Build the project:
+    mvn clean install
+    Generates a .jar file under the target folder.
+    e.g git/fractal-assignment-test/fractal-assignment-test/target/fractal-assignment-test-0.0.1-SNAPSHOT.jar
+    
+    Run the following command on CommandLine at the location of the jar. The command starts the spring boot project.
+    java -jar fractal-assignment-test-0.0.1-SNAPSHOT.jar
+
+2. Rest URLs:
 
 Fetch all Transactions for company.
 REST Route GET /companies/{companyId}/transactions
